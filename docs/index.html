@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja" style="font-size:20px;">
+<head>
+	<meta charset="utf-8">
+	<title>Image Cutter sample</title>
+	<style type="text/css">
+body > div { width: 20rem; height: 20rem; background-color: lightgray; margin: auto; }
+	</style>
+	<script src='./imagecutter.js' type='text/javascript'></script>
+	<script type="text/javascript">
+document.addEventListener( 'DOMContentLoaded', () => {
+	const editimg = document.getElementById( 'editimg' );
+	document.getElementById( 'reset' ).addEventListener( 'click', () => { editimg.reset(); } );
+	document.getElementById( 'cut' ).addEventListener( 'click', () => {
+		document.getElementById( 'icon' ).src = editimg.toDataURL();
+	} );
+} );
+	</script>
+</head>
+<body>
+	<div>
+		<image-cutter id="editimg"></image-cutter>
+		<div>
+			<button id="reset">Reset</button>
+			<button id="cut">Cut</button>
+		</div>
+		<div><img id="icon"></div>
+	</div>
+</body>
+</html>

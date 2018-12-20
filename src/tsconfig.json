@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"outDir": "../docs/",
+		"module": "amd",
+		"target": "es6",
+		"moduleResolution": "node",
+		"declaration": true,
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"removeComments": true,
+		"preserveConstEnums": false,
+		"sourceMap": false
+	},
+	"include": [
+		"./**/*.ts"
+	]
+}
