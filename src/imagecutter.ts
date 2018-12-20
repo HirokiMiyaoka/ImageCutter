@@ -4,6 +4,12 @@ interface FileReaderEvent extends ProgressEvent
 	target: FileReader,
 }
 
+interface DropFileEvent extends Event
+{
+	image: HTMLImageElement,
+	file: File,
+}
+
 class ImageCutter extends HTMLElement
 {
 	private canvas: HTMLCanvasElement;
@@ -367,13 +373,21 @@ class ImageCutter extends HTMLElement
 
 	private onDrop( event: DragEvent )
 	{
+		if ( !event.dataTransfer ) { return; }
+		const file = event.dataTransfer.files[ 0 ];
 		const reader = new FileReader();
 		reader.onload = ( event: FileReaderEvent ) => {
 			const img = document.createElement( 'img' );
-			img.onload = () => { this.onLoadImage( img ); };
+			img.onload = () => {
+				this.onLoadImage( img );
+				const dropevent = <DropFileEvent>new Event( 'dropfile' );
+				dropevent.image = img;
+				dropevent.file = file;
+				this.dispatchEvent( dropevent );
+			};
 			img.src = <string>event.target.result;
 		};
-		reader.readAsDataURL( event.dataTransfer.files[ 0 ] );
+		reader.readAsDataURL( file );
 	}
 
 	public reset()

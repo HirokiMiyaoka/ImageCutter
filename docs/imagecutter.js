@@ -356,13 +356,23 @@ class ImageCutter extends HTMLElement {
         element.removeEventListener('drop', this.dragdrop);
     }
     onDrop(event) {
+        if (!event.dataTransfer) {
+            return;
+        }
+        const file = event.dataTransfer.files[0];
         const reader = new FileReader();
         reader.onload = (event) => {
             const img = document.createElement('img');
-            img.onload = () => { this.onLoadImage(img); };
+            img.onload = () => {
+                this.onLoadImage(img);
+                const dropevent = new Event('dropfile');
+                dropevent.image = img;
+                dropevent.file = file;
+                this.dispatchEvent(dropevent);
+            };
             img.src = event.target.result;
         };
-        reader.readAsDataURL(event.dataTransfer.files[0]);
+        reader.readAsDataURL(file);
     }
     reset() {
         const cutar = ImageCutter.aspectRatio(this.width, this.height);

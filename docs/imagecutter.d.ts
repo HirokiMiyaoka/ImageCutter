@@ -1,6 +1,10 @@
 interface FileReaderEvent extends ProgressEvent {
     target: FileReader;
 }
+interface DropFileEvent extends Event {
+    image: HTMLImageElement;
+    file: File;
+}
 declare class ImageCutter extends HTMLElement {
     private canvas;
     private drop;
