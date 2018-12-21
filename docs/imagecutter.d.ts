@@ -29,6 +29,7 @@ declare class ImageCutter extends HTMLElement {
     private updateCanvas;
     getCanvas(): HTMLCanvasElement;
     toDataURL(type?: string, quality?: number): string;
+    pixel: boolean;
     width: number;
     height: number;
 }

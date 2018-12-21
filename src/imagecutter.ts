@@ -376,9 +376,11 @@ class ImageCutter extends HTMLElement
 		if ( !event.dataTransfer ) { return; }
 		const file = event.dataTransfer.files[ 0 ];
 		const reader = new FileReader();
-		reader.onload = ( event: FileReaderEvent ) => {
+		reader.onload = ( event: FileReaderEvent ) =>
+		{
 			const img = document.createElement( 'img' );
-			img.onload = () => {
+			img.onload = () =>
+			{
 				this.onLoadImage( img );
 				const dropevent = <DropFileEvent>new Event( 'dropfile' );
 				dropevent.image = img;
@@ -444,6 +446,7 @@ class ImageCutter extends HTMLElement
 		out.width = this.width;
 		out.height = this.height;
 		const context = <CanvasRenderingContext2D>out.getContext( '2d' );
+		if ( this.pixel ) { context.imageSmoothingEnabled = false; }
 		context.drawImage( this.canvas, this.cut.left, this.cut.top, this.cut.width, this.cut.height, 0, 0, this.width, this.height );
 		return out;
 	}
@@ -453,10 +456,12 @@ class ImageCutter extends HTMLElement
 		return this.getCanvas().toDataURL( type, quality );
 	}
 
+	get pixel() { return this.hasAttribute( 'pixel' ); }
+	set pixel( value ) { if ( !!value ) { this.setAttribute( 'pixel', 'true' ); } else { this.removeAttribute( 'pixel' ); } }
 	get width() { return parseInt( this.getAttribute( 'width' ) || '128' ); }
-	set width( value ) { this.setAttribute( 'value', value + '' ); }
+	set width( value ) { this.setAttribute( 'width', value + '' ); }
 	get height() { return parseInt( this.getAttribute( 'height' ) || '128' ); }
-	set height( value ) { this.setAttribute( 'value', value + '' ); }
+	set height( value ) { this.setAttribute( 'height', value + '' ); }
 }
 
 document.addEventListener( 'DOMContentLoaded', () =>

@@ -414,16 +414,26 @@ class ImageCutter extends HTMLElement {
         out.width = this.width;
         out.height = this.height;
         const context = out.getContext('2d');
+        if (this.pixel) {
+            context.imageSmoothingEnabled = false;
+        }
         context.drawImage(this.canvas, this.cut.left, this.cut.top, this.cut.width, this.cut.height, 0, 0, this.width, this.height);
         return out;
     }
     toDataURL(type = 'image/png', quality) {
         return this.getCanvas().toDataURL(type, quality);
     }
+    get pixel() { return this.hasAttribute('pixel'); }
+    set pixel(value) { if (value) {
+        this.setAttribute('pixel', 'true');
+    }
+    else {
+        this.removeAttribute('pixel');
+    } }
     get width() { return parseInt(this.getAttribute('width') || '128'); }
-    set width(value) { this.setAttribute('value', value + ''); }
+    set width(value) { this.setAttribute('width', value + ''); }
     get height() { return parseInt(this.getAttribute('height') || '128'); }
-    set height(value) { this.setAttribute('value', value + ''); }
+    set height(value) { this.setAttribute('height', value + ''); }
 }
 document.addEventListener('DOMContentLoaded', () => {
     customElements.define('image-cutter', ImageCutter);
